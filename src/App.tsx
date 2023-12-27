@@ -32,13 +32,15 @@ function App() {
       }, 1200);
     });
 
-    return () => unsubscribe();
-  }, [navigate, dispatch]);
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <>
       {isLoading ? (
-        <div className="w-screen h-screen flex items-center justify-center overflow-hidden bg-primary flex-col">
+        <div className="w-screen h-screen flex items-center justify-center bg-primary flex-col">
           <Spinner />
           <div className="flex flex-col items-center text-white mt-2">
             <span className="text-4xl font-bold mb-2">Codepen Clone</span>
