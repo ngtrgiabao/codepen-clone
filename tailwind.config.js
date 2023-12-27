@@ -10,6 +10,7 @@ export default {
         text555: "#555",
         textGray: "rgba(256, 256, 256, 0.2)",
         lightGray: "rgba(256, 256, 256, 0.4)",
+        extraLightGray: "rgba(256, 256, 256, 0.05)",
       },
     },
   },

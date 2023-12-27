@@ -6,11 +6,13 @@ import { motion } from "framer-motion";
 import { Link, Route, Routes } from "react-router-dom";
 import { Logo } from "../assets";
 import { SignUp } from "../pages";
-import { Projects } from "../components";
+import { Projects, UserProfileDetails } from "../components";
+import { useSelector } from "react-redux";
 
 const Home = () => {
   const [isSideMenu, setIsSideMenu] = useState<boolean>(false);
-  const [user, setuser] = useState(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const user = useSelector((state: any) => state.user?.user);
 
   return (
     <>
@@ -84,7 +86,7 @@ const Home = () => {
               </Link>
             </motion.div>
           )}
-          {user && <div></div>}
+          {user && <UserProfileDetails />}
         </div>
 
         <div className="w-full">

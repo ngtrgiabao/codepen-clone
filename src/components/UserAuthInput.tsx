@@ -71,9 +71,9 @@ const UserAuthInput = ({
             className="cursor-pointer"
           >
             {showPassword ? (
-              <FaEye className="text-text555 text-2xl" />
-            ) : (
               <FaEyeSlash className="text-text555 text-2xl" />
+            ) : (
+              <FaEye className="text-text555 text-2xl" />
             )}
           </motion.div>
         )}

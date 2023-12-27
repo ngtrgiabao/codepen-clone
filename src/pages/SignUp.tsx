@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { Logo } from "../assets";
-import { UserAuthInput } from "../components";
 import { FaEnvelope, FaGithub } from "react-icons/fa6";
 import { MdPassword } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { signInWithGithub, signInWithGoogle } from "../utils/helpers";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../config/firebase.config";
+import { fadeInOut } from "../utils/styles/animations";
+import { UserAuthInput } from "../components";
 
 const SignUp = () => {
   const [email, setEmail] = useState<string>("");
@@ -14,6 +20,49 @@ const SignUp = () => {
   const [getEmailValidationStatus, setGetEmailValidationStatus] =
     useState<boolean>(false);
   const [isLogin, setLogin] = useState<boolean>(false);
+
+  const [alert, setAlert] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>("");
+
+  const createNewUser = async () => {
+    if (getEmailValidationStatus) {
+      await createUserWithEmailAndPassword(auth, email, password)
+        .then((userCred) => {
+          if (userCred) {
+            console.log(userCred);
+          }
+        })
+        .catch((err) => console.error(err));
+    }
+  };
+
+  const loginWithEmailPassword = async () => {
+    if (getEmailValidationStatus) {
+      await signInWithEmailAndPassword(auth, email, password)
+        .then((userCred) => {
+          if (userCred) {
+            console.log(userCred);
+          }
+        })
+        .catch((err) => {
+          console.log(err.message);
+          if (err.message.includes("user-not-found")) {
+            setAlert(true);
+            setAlertMessage("Invalid ID: user not found!");
+          } else if (err.message.includes("wrong-password")) {
+            setAlert(true);
+            setAlertMessage("Password not correct!");
+          } else {
+            setAlert(true);
+            setAlertMessage("Temporarily disabled due too many failed login!");
+          }
+
+          setInterval(() => {
+            setAlert(false);
+          }, 4000);
+        });
+    }
+  };
 
   return (
     <div className="w-full py-6">
@@ -48,8 +97,22 @@ const SignUp = () => {
             Icon={MdPassword}
           />
 
+          {/* alert */}
+          {alert && (
+            <AnimatePresence>
+              <motion.p
+                key={"AlertMessage"}
+                {...fadeInOut}
+                className="text-red-500"
+              >
+                {alertMessage}
+              </motion.p>
+            </AnimatePresence>
+          )}
+
           {isLogin ? (
             <motion.div
+              onClick={createNewUser}
               whileTap={{ scale: 0.9 }}
               className="flex items-center justify-center w-full py-3 rounded-xl hover:bg-emeral-400 cursor-pointer bg-emerald-500"
             >
@@ -57,6 +120,7 @@ const SignUp = () => {
             </motion.div>
           ) : (
             <motion.div
+              onClick={loginWithEmailPassword}
               whileTap={{ scale: 0.9 }}
               className="flex items-center justify-center w-full py-3 rounded-xl hover:bg-emeral-400 cursor-pointer bg-emerald-500"
             >
