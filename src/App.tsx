@@ -3,10 +3,11 @@ import "./App.css";
 import { Home, NewProject } from "./pages";
 import { useEffect, useState } from "react";
 import { auth, db } from "./config/firebase.config";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, doc, onSnapshot, orderBy, query, setDoc } from "firebase/firestore";
 import { Spinner } from "./components";
 import { useDispatch } from "react-redux";
 import { SET_USER } from "./context/actions/userActions";
+import { SET_PROJECTS } from "./context/actions/projectActions";
 
 function App() {
   const navigate = useNavigate();
@@ -36,6 +37,19 @@ function App() {
       unsubscribe();
     };
   }, []);
+
+  // TODO: state of projects not return data, but console log can
+  useEffect(() => {
+    const projectQuery = query(collection(db, "projects"), orderBy("id", "desc"));
+    const unsubscribe = onSnapshot(projectQuery, (querySnaps) => {
+      const projectList = querySnaps.docs.map(doc => doc.data());
+      dispatch(SET_PROJECTS(projectList));
+    })
+
+    return () => {
+      unsubscribe();
+    }
+  },[])
 
   return (
     <>
