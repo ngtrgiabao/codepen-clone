@@ -7,12 +7,18 @@ import { Link, Route, Routes } from "react-router-dom";
 import { Logo } from "../assets";
 import { SignUp } from "../pages";
 import { Projects, UserProfileDetails } from "../components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { SET_SEARCH_TERM } from "../context/actions/searchActions";
 
 const Home = () => {
   const [isSideMenu, setIsSideMenu] = useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const user = useSelector((state: any) => state.user?.user);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const searchTerm = useSelector((state: any) =>
+    state?.searchTerm?.searchTerm ? state?.searchTerm?.searchTerm : "",
+  );
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -69,8 +75,10 @@ const Home = () => {
             <FaSearchengin className="text-2xl text-primaryText" />
             <input
               type="text"
+              value={searchTerm}
               className="flex-1 px-4 py-1 text-xl bg-transparent outline-none border-none text-primaryText placeholder:text-gray-600"
               placeholder="Search here..."
+              onChange={(e) => dispatch(SET_SEARCH_TERM(e.target.value))}
             />
           </div>
           {!user && (

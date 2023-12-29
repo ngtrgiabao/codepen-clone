@@ -9,5 +9,6 @@ export const SET_PROJECTS = (projects: any) => {
 export const SET_PROJECTS_NULL = () => {
   return {
     type: "SET_PROJECTS_NULL",
+    projects: null,
   };
 };

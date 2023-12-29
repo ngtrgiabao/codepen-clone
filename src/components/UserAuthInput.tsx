@@ -8,7 +8,7 @@ interface UserAuthInputProps {
   label: string;
   placeholder: string;
   isPass: boolean;
-  key: string;
+  key?: string;
   setStateFunction: Dispatch<SetStateAction<string>>;
   Icon: IconType;
   setGetEmailValidationStatus?: Dispatch<SetStateAction<boolean>>;
@@ -18,7 +18,6 @@ const UserAuthInput = ({
   label,
   placeholder,
   isPass,
-  key,
   setStateFunction,
   Icon,
   setGetEmailValidationStatus,

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { legacy_createStore as createStore } from "redux";
 import myReducer from "./reducers";
 

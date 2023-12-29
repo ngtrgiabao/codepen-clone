@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { FaChevronDown, FaCss3, FaHtml5, FaJs } from "react-icons/fa6";
 import { FcSettings } from "react-icons/fc";
 import SplitPane from "react-split-pane";
@@ -183,7 +186,7 @@ const NewProject = () => {
           split="horizontal"
           minSize={100}
           maxSize={-100}
-          defaultSize={"50%"}
+          defaultSize={"50%"}          
         >
           {/* top coding section */}
           <SplitPane
